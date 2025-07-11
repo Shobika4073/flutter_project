@@ -14,8 +14,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
-  void _showCommentsBottomSheet(BuildContext context, HomeViewModel vm, Post post) {
+  void _showCommentsBottomSheet(
+      BuildContext context, HomeViewModel vm, Post post) {
     showModalBottomSheet(
       backgroundColor: Colors.white,
       context: context,
@@ -34,7 +34,8 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       Text(
                         'Comments',
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                       IconButton(
                         icon: Icon(Icons.close),
@@ -48,7 +49,8 @@ class _HomePageState extends State<HomePage> {
                       itemCount: post.usercomments.length,
                       itemBuilder: (context, index) {
                         final comment = post.usercomments[index];
-                        final minutesAgo = DateTime.now().difference(comment.time).inMinutes;
+                        final minutesAgo =
+                            DateTime.now().difference(comment.time).inMinutes;
 
                         return ListTile(
                           leading: CircleAvatar(
@@ -73,12 +75,15 @@ class _HomePageState extends State<HomePage> {
                           subtitle: Text(comment.commentText),
                           trailing: IconButton(
                             icon: Icon(
-                              comment.isCommentLiked ? Icons.favorite : Icons.favorite_border,
+                              comment.isCommentLiked
+                                  ? Icons.favorite
+                                  : Icons.favorite_border,
                               color: comment.isCommentLiked ? Colors.red : null,
                             ),
                             onPressed: () {
                               setState(() {
-                                comment.isCommentLiked = !comment.isCommentLiked;
+                                comment.isCommentLiked =
+                                    !comment.isCommentLiked;
                               });
                             },
                           ),
@@ -102,7 +107,8 @@ class _HomePageState extends State<HomePage> {
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(24),
                               ),
-                              contentPadding: EdgeInsets.symmetric(horizontal: 16),
+                              contentPadding:
+                                  EdgeInsets.symmetric(horizontal: 16),
                             ),
                             onSubmitted: (value) {
                               if (value.isNotEmpty) {
@@ -152,7 +158,8 @@ class _HomePageState extends State<HomePage> {
                   ),
                   //SizedBox(width: 250,),
                   Spacer(),
-                  IconButton(icon: Icon(Icons.favorite_border), onPressed: () {}),
+                  IconButton(
+                      icon: Icon(Icons.favorite_border), onPressed: () {}),
                   GestureDetector(
                     onTap: () {},
                     child: Image.asset(
@@ -164,51 +171,57 @@ class _HomePageState extends State<HomePage> {
                     icon: Icon(Icons.logout),
                     onPressed: () {
                       showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text("Logout"),
-                            content: Text("Do you want to logout?"),
-                            actions: [
-                              GestureDetector(onTap: () {
-                                Navigator.of(context).pop();
-                              },
-                                  child: Text("Cancel", style: TextStyle(
-                                      color: Colors.pink[900]),)),
-                              SizedBox(width: 20,),
-                              GestureDetector(onTap: () async {
-                                final prefs = await SharedPreferences
-                                    .getInstance();
-                                await prefs.setBool('isLoggedIn', false);
-                                Navigator.of(context).pop();
-                                Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => LoginPage()),
-                                      (Route<dynamic> route) => false,
-                                );
-                              },
-                                  child: Text("Ok", style: TextStyle(
-                                      color: Colors.pink[900]),)),
-                            ],
-                          );
-                        }
-                      );
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text("Logout"),
+                              content: Text("Do you want to logout?"),
+                              actions: [
+                                GestureDetector(
+                                    onTap: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text(
+                                      "Cancel",
+                                      style: TextStyle(color: Colors.pink[900]),
+                                    )),
+                                SizedBox(
+                                  width: 20,
+                                ),
+                                GestureDetector(
+                                    onTap: () async {
+                                      final prefs =
+                                          await SharedPreferences.getInstance();
+                                      await prefs.setBool('isLoggedIn', false);
+                                      Navigator.of(context).pop();
+                                      Navigator.pushAndRemoveUntil(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => LoginPage()),
+                                        (Route<dynamic> route) => false,
+                                      );
+                                    },
+                                    child: Text(
+                                      "Ok",
+                                      style: TextStyle(color: Colors.pink[900]),
+                                    )),
+                              ],
+                            );
+                          });
                     },
                   )
-
                 ],
               ),
               Container(
                 height: 100,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: vm.stories.length + 1, // +1 for the "add story" circle
+                  itemCount:
+                      vm.stories.length + 1,
                   itemBuilder: (context, index) {
                     if (index == 0) {
                       return _buildAddStoryCircle();
                     }
-        
                     return _buildStoryCircle(vm.stories[index - 1], index - 1);
                   },
                 ),
@@ -226,13 +239,11 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-
               ...vm.posts.map((post) => _buildPost(context, vm, post)).toList(),
             ],
           ),
         ),
       ),
-
     );
   }
 
@@ -334,7 +345,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildPost(BuildContext context, HomeViewModel vm,Post post) {
+  Widget _buildPost(BuildContext context, HomeViewModel vm, Post post) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -359,50 +370,59 @@ class _HomePageState extends State<HomePage> {
               SizedBox(width: 10),
               Text(post.username),
               Spacer(),
-              IconButton(icon: Icon(Icons.more_vert), onPressed: () {
-                showModalBottomSheet(
-                  backgroundColor: Colors.white,
-                  context: context,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-                  ),
-                  builder: (BuildContext context) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                _iconWithText(Icons.bookmark_border, 'Save'),
-                                _iconWithText(Icons.loop, 'Remix'),
-                                _iconWithText(Icons.qr_code, 'QR code'),
-                              ],
+              IconButton(
+                icon: Icon(Icons.more_vert),
+                onPressed: () {
+                  showModalBottomSheet(
+                    backgroundColor: Colors.white,
+                    context: context,
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.vertical(top: Radius.circular(20)),
+                    ),
+                    builder: (BuildContext context) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 8),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  _iconWithText(Icons.bookmark_border, 'Save'),
+                                  _iconWithText(Icons.loop, 'Remix'),
+                                  _iconWithText(Icons.qr_code, 'QR code'),
+                                ],
+                              ),
                             ),
-                          ),
-                          Divider(),
-                          _bottomSheetTile(Icons.star_border, 'Add to favorites'),
-                          _bottomSheetTile(Icons.person_remove_alt_1, 'Unfollow'),
-                          _bottomSheetTile(Icons.info_outline, 'Why you\'re seeing this post'),
-                          _bottomSheetTile(Icons.visibility_off, 'Hide'),
-                          _bottomSheetTile(Icons.info, 'About this account'),
-                          ListTile(
-                            leading: Icon(Icons.report, color: Colors.red),
-                            title: Text('Report', style: TextStyle(color: Colors.red)),
-                            onTap: () {
-                              Navigator.pop(context);
-                              // Handle Report
-                            },
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                );
-              },
+                            Divider(),
+                            _bottomSheetTile(
+                                Icons.star_border, 'Add to favorites'),
+                            _bottomSheetTile(
+                                Icons.person_remove_alt_1, 'Unfollow'),
+                            _bottomSheetTile(Icons.info_outline,
+                                'Why you\'re seeing this post'),
+                            _bottomSheetTile(Icons.visibility_off, 'Hide'),
+                            _bottomSheetTile(Icons.info, 'About this account'),
+                            ListTile(
+                              leading: Icon(Icons.report, color: Colors.red),
+                              title: Text('Report',
+                                  style: TextStyle(color: Colors.red)),
+                              onTap: () {
+                                Navigator.pop(context);
+                                // Handle Report
+                              },
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                },
               ),
             ],
           ),
@@ -420,7 +440,9 @@ class _HomePageState extends State<HomePage> {
           child: Row(
             children: [
               GestureDetector(
-                onTap: (){vm.toggleLike(post);},
+                onTap: () {
+                  vm.toggleLike(post);
+                },
                 child: Icon(
                   post.isLiked ? Icons.favorite : Icons.favorite_border,
                   color: post.isLiked ? Colors.red : null,
@@ -434,7 +456,7 @@ class _HomePageState extends State<HomePage> {
                   },
                   child: Image.asset(
                     "lib/assets/msg.png",
-                    height:25,
+                    height: 25,
                   )),
               SizedBox(width: 5),
               Text(post.commentCount.toString()),
@@ -447,7 +469,8 @@ class _HomePageState extends State<HomePage> {
                     "lib/assets/arrow.png",
                     height: 25,
                   )),
-              Text(post.shareCount.toString()), Spacer(),
+              Text(post.shareCount.toString()),
+              Spacer(),
               IconButton(
                 icon: Icon(
                   post.isBookmarked ? Icons.bookmark : Icons.bookmark_border,
@@ -455,7 +478,8 @@ class _HomePageState extends State<HomePage> {
                 onPressed: () {
                   vm.toggleBookmark(post);
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text(post.isBookmarked ? 'Saved' : 'Removed from saved'),
+                    content: Text(
+                        post.isBookmarked ? 'Saved' : 'Removed from saved'),
                     duration: Duration(seconds: 1),
                   ));
                 },
@@ -463,16 +487,18 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
         ),
-         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: Row(
-            children: [
-              Text("Liked By",style: TextStyle(fontWeight: FontWeight.bold),),
-              Text('${post.leadingLiker} '),
-              Text("and Others.")
-            ],
-          )
-        ),
+        Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Row(
+              children: [
+                Text(
+                  "Liked By",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                Text('${post.leadingLiker} '),
+                Text("and Others.")
+              ],
+            )),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Text.rich(
@@ -516,5 +542,4 @@ class _HomePageState extends State<HomePage> {
       },
     );
   }
-
 }

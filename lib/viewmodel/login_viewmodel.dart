@@ -24,4 +24,10 @@ class LoginViewModel extends ChangeNotifier {
 
     return user != null;
   }
+
+  void clearControllers() {
+    _emailController.clear();
+    _passwordController.clear();
+    notifyListeners();
+  }
 }

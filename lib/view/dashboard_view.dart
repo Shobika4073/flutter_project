@@ -12,7 +12,6 @@ class _DashboardViewState extends State<DashboardView> {
   int _selectedIndex = 0;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  // Define labels for each navigation item
   final List<String> _labels = ['Home', 'Search', 'Add', 'Likes', 'Profile'];
 
   final List<Widget> _pages = [
@@ -38,7 +37,7 @@ class _DashboardViewState extends State<DashboardView> {
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.white,
         currentIndex: _selectedIndex,
-        selectedItemColor: const Color(0xFFDD2A7B), // Pink color for selected items
+        selectedItemColor: const Color(0xFFDD2A7B),
         unselectedItemColor: Colors.grey,
         showSelectedLabels: true,
         showUnselectedLabels: false,
@@ -75,37 +74,28 @@ class _DashboardViewState extends State<DashboardView> {
                 ),
               ),
             SizedBox(height: isSelected ? 4 : 7),
-            index == 4
-                ? CircleAvatar(
-              radius: isSelected ? 13 : 12,
-              backgroundColor: isSelected ? Color(0xFFDD2A7B) : Colors.grey.shade300,
-              child: CircleAvatar(
-                radius: isSelected ? 21.5 : 20.5,
-                backgroundImage: AssetImage('lib/assets/img1.png'), // <-- your image path here
-              ),
-            )
-                : isSelected
+            isSelected
                 ? ShaderMask(
-              shaderCallback: (Rect bounds) {
-                return const LinearGradient(
-                  colors: [
-                    Color(0xFFF58529),
-                    Color(0xFFDD2A7B),
-                    Color(0xFF8134AF),
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ).createShader(bounds);
-              },
-              child: Icon(
-                iconData,
-                color: Colors.white,
-              ),
-            )
+                    shaderCallback: (Rect bounds) {
+                      return const LinearGradient(
+                        colors: [
+                          Color(0xFFF58529),
+                          Color(0xFFDD2A7B),
+                          Color(0xFF8134AF),
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ).createShader(bounds);
+                    },
+                    child: Icon(
+                      iconData,
+                      color: Colors.white,
+                    ),
+                  )
                 : Icon(
-              iconData,
-              color: Colors.grey,
-            ),
+                    iconData,
+                    color: Colors.grey,
+                  ),
           ],
         ),
       ),

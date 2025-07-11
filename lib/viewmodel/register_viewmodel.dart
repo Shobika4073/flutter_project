@@ -40,6 +40,15 @@ class RegisterViewModel extends ChangeNotifier {
     _isLoading = false;
     notifyListeners();
 
-    return null; // Success
+    return null;
   }
+
+  void clearControllers() {
+    _emailController.clear();
+    userNameController.clear();
+    _passwordController.clear();
+    _confirmPasswordController.clear();
+    notifyListeners();
+  }
+
 }

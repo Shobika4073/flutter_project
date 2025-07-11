@@ -8,11 +8,15 @@ class RegisterPage extends StatefulWidget {
   State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _RegisterPageState extends State<RegisterPage> with TickerProviderStateMixin {
+class _RegisterPageState extends State<RegisterPage>
+    with TickerProviderStateMixin {
   late AnimationController _fadeController;
   late AnimationController _slideController;
   late Animation<double> _fadeAnimation;
   late Animation<Offset> _slideAnimation;
+
+  bool _isPasswordVisible = false;
+  bool _isConfirmPasswordVisible = false;
 
   @override
   void initState() {
@@ -61,11 +65,14 @@ class _RegisterPageState extends State<RegisterPage> with TickerProviderStateMix
     );
 
     if (errorMessage != null) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(errorMessage)));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(errorMessage)));
     } else {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString('username', vm.userNameController.text);
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Registration successful")));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("Registration successful")));
+      vm.clearControllers();
       Navigator.pop(context);
     }
   }
@@ -95,8 +102,6 @@ class _RegisterPageState extends State<RegisterPage> with TickerProviderStateMix
                   ),
                 ),
                 const SizedBox(height: 40),
-
-                // Email
                 TextField(
                   controller: vm.emailController,
                   decoration: _inputDecoration('Email'),
@@ -107,23 +112,34 @@ class _RegisterPageState extends State<RegisterPage> with TickerProviderStateMix
                   decoration: _inputDecoration('UserName'),
                 ),
                 const SizedBox(height: 16),
-                // Password
                 TextField(
                   controller: vm.passwordController,
-                  obscureText: true,
-                  decoration: _inputDecoration('Password'),
+                  obscureText: !_isPasswordVisible,
+                  decoration: _inputDecorationWithIcon(
+                    'Password',
+                    _isPasswordVisible,
+                        () {
+                      setState(() {
+                        _isPasswordVisible = !_isPasswordVisible;
+                      });
+                    },
+                  ),
                 ),
                 const SizedBox(height: 16),
-
-                // Confirm Password
                 TextField(
                   controller: vm.confirmPasswordController,
-                  obscureText: true,
-                  decoration: _inputDecoration('Confirm Password'),
+                  obscureText: !_isConfirmPasswordVisible,
+                  decoration: _inputDecorationWithIcon(
+                    'Confirm Password',
+                    _isConfirmPasswordVisible,
+                        () {
+                      setState(() {
+                        _isConfirmPasswordVisible = !_isConfirmPasswordVisible;
+                      });
+                    },
+                  ),
                 ),
                 const SizedBox(height: 24),
-
-                // Register Button
                 GestureDetector(
                   onTap: () => _handleRegister(context),
                   child: Container(
@@ -143,7 +159,8 @@ class _RegisterPageState extends State<RegisterPage> with TickerProviderStateMix
                     ),
                     alignment: Alignment.center,
                     child: vm.isLoading
-                        ? CircularProgressIndicator(color: Colors.white, strokeWidth: 2)
+                        ? CircularProgressIndicator(
+                        color: Colors.white, strokeWidth: 2)
                         : Text(
                       'Register',
                       style: TextStyle(
@@ -169,6 +186,37 @@ class _RegisterPageState extends State<RegisterPage> with TickerProviderStateMix
       fillColor: Colors.grey[100],
       contentPadding: EdgeInsets.symmetric(vertical: 16, horizontal: 12),
       border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+    );
+  }
+
+  InputDecoration _inputDecorationWithIcon(
+      String hint, bool visible, VoidCallback toggleVisibility) {
+    return InputDecoration(
+      hintText: hint,
+      filled: true,
+      fillColor: Colors.grey[100],
+      contentPadding: EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+      border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+      suffixIcon: GestureDetector(
+        onTap: toggleVisibility,
+        child: ShaderMask(
+          shaderCallback: (Rect bounds) {
+            return const LinearGradient(
+              colors: [
+                Color(0xFFF58529),
+                Color(0xFFDD2A7B),
+                Color(0xFF8134AF),
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ).createShader(bounds);
+          },
+          child: Icon(
+            visible ? Icons.visibility : Icons.visibility_off,
+            color: Colors.white,
+          ),
+        ),
+      ),
     );
   }
 }

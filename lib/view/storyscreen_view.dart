@@ -38,17 +38,13 @@ class _StoryViewScreenState extends State<StoryViewScreen> {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          // Background Image
           Image.asset(
             widget.image,
             fit: BoxFit.contain,
           ),
-          // Semi-transparent Overlay
           Container(
             color: Colors.black.withOpacity(0.3),
           ),
-
-          // Top User Info
           SafeArea(
             child: Padding(
               padding: const EdgeInsets.all(12.0),
@@ -86,12 +82,11 @@ class _StoryViewScreenState extends State<StoryViewScreen> {
               ),
             ),
           ),
-
-          // Bottom Like and Message Section
           Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 16.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 12.0, vertical: 16.0),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -117,7 +112,6 @@ class _StoryViewScreenState extends State<StoryViewScreen> {
                         IconButton(
                           icon: Icon(Icons.send, color: Colors.white),
                           onPressed: () {
-                            // Handle send action
                             print("Message: ${_messageController.text}");
                             _messageController.clear();
                           },

@@ -15,6 +15,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   late AnimationController _slideController;
   late Animation<double> _fadeAnimation;
   late Animation<Offset> _slideAnimation;
+  bool _isPasswordVisible = false;
 
   @override
   void initState() {
@@ -65,12 +66,13 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setBool('isLoggedIn', true);
       await prefs.setString('userEmail', vm.emailController.text);
-      String email = prefs.getString('userEmail') ?? '';
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Login successful")));
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => DashboardView()));
-
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("Login successful")));
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (_) => DashboardView()));
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Invalid credentials")));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("Invalid credentials")));
     }
   }
 
@@ -93,32 +95,61 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   Image.asset("lib/assets/insta_logo.png"),
                   Image.asset("lib/assets/in_logo.jpg", height: 80),
                   const SizedBox(height: 20),
-
                   TextField(
                     controller: vm.emailController,
                     decoration: InputDecoration(
                       hintText: 'Email',
                       filled: true,
                       fillColor: Colors.grey[100],
-                      contentPadding: EdgeInsets.symmetric(vertical: 16, horizontal: 12),
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                      contentPadding:
+                      EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                     ),
                   ),
                   const SizedBox(height: 16),
-
                   TextField(
                     controller: vm.passwordController,
-                    obscureText: true,
+                    obscureText: !_isPasswordVisible,
                     decoration: InputDecoration(
                       hintText: 'Password',
                       filled: true,
                       fillColor: Colors.grey[100],
-                      contentPadding: EdgeInsets.symmetric(vertical: 16, horizontal: 12),
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                      contentPadding:
+                      EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      suffixIcon: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _isPasswordVisible = !_isPasswordVisible;
+                          });
+                        },
+                        child: ShaderMask(
+                          shaderCallback: (Rect bounds) {
+                            return const LinearGradient(
+                              colors: [
+                                Color(0xFFF58529),
+                                Color(0xFFDD2A7B),
+                                Color(0xFF8134AF),
+                              ],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ).createShader(bounds);
+                          },
+                          child: Icon(
+                            _isPasswordVisible
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                   const SizedBox(height: 24),
-
                   GestureDetector(
                     onTap: () => _handleLogin(context),
                     child: Container(
@@ -138,7 +169,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                       ),
                       alignment: Alignment.center,
                       child: vm.isLoading
-                          ? CircularProgressIndicator(color: Colors.white, strokeWidth: 2)
+                          ? CircularProgressIndicator(
+                          color: Colors.white, strokeWidth: 2)
                           : Text(
                         'Log in',
                         style: TextStyle(
@@ -150,7 +182,6 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     ),
                   ),
                   const SizedBox(height: 20),
-
                   Row(
                     children: [
                       Expanded(child: Divider(thickness: 1)),
@@ -162,16 +193,24 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     ],
                   ),
                   const SizedBox(height: 20),
-
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text("Don't have an account?"),
                       TextButton(
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (_) => RegisterPage()));
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) => RegisterPage()),
+                          );
                         },
-                        child: Text("Register", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.pink[900])),
+                        child: Text(
+                          "Register",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.pink[900],
+                          ),
+                        ),
                       ),
                     ],
                   ),

@@ -11,8 +11,11 @@ class SearchPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 1,
-        leading: IconButton(onPressed: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context) => DashboardView()));},
+        leading: IconButton(
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => DashboardView()));
+            },
             icon: Icon(Icons.arrow_back)),
         title: Text('Search'),
       ),
@@ -32,7 +35,7 @@ class SearchPage extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 20),
             child: TextField(
               controller: _searchController,
               decoration: InputDecoration(
@@ -59,9 +62,6 @@ class SearchPage extends StatelessWidget {
   }
 }
 
-
-
-
 class AddPostPage extends StatefulWidget {
   @override
   _AddPostPageState createState() => _AddPostPageState();
@@ -73,7 +73,6 @@ class _AddPostPageState extends State<AddPostPage> {
   @override
   void initState() {
     super.initState();
-    // Simulate a delay (e.g., fetching media)
     Future.delayed(Duration(seconds: 2), () {
       setState(() {
         isLoading = false;
@@ -89,11 +88,21 @@ class _AddPostPageState extends State<AddPostPage> {
         children: [
           Row(
             children: [
-              IconButton(onPressed: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => DashboardView()));},
+              IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => DashboardView()));
+                  },
                   icon: Icon(Icons.arrow_back)),
-              SizedBox(width: 20,),
-              Text('Post',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),)
+              SizedBox(
+                width: 20,
+              ),
+              Text(
+                'Post',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              )
             ],
           ),
           Container(
@@ -123,7 +132,6 @@ class _AddPostPageState extends State<AddPostPage> {
   }
 }
 
-
 class LikesPage extends StatefulWidget {
   @override
   _LikesPageState createState() => _LikesPageState();
@@ -135,7 +143,6 @@ class _LikesPageState extends State<LikesPage> {
   @override
   void initState() {
     super.initState();
-    // Simulate loading
     Future.delayed(Duration(seconds: 2), () {
       setState(() {
         isLoading = false;
@@ -151,11 +158,21 @@ class _LikesPageState extends State<LikesPage> {
         children: [
           Row(
             children: [
-              IconButton(onPressed: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => DashboardView()));},
+              IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => DashboardView()));
+                  },
                   icon: Icon(Icons.arrow_back)),
-              SizedBox(width: 20,),
-              Text('Reels',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),)
+              SizedBox(
+                width: 20,
+              ),
+              Text(
+                'Reels',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              )
             ],
           ),
           Container(
@@ -177,9 +194,10 @@ class _LikesPageState extends State<LikesPage> {
               child: isLoading
                   ? CircularProgressIndicator()
                   : Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 0),
-                    child: Text('You have no new Reels.', style: TextStyle(fontSize: 18)),
-                  ),
+                      padding: const EdgeInsets.symmetric(vertical: 0),
+                      child: Text('You have no new Reels.',
+                          style: TextStyle(fontSize: 18)),
+                    ),
             ),
           ),
         ],

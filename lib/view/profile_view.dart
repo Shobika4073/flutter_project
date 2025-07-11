@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-void main(){
-  runApp(MaterialApp(
-    home: ProfilePage(),
-  ));
-}
+
 class ProfilePage extends StatefulWidget {
   @override
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-
   int selectedTabIndex = 0;
   String? userEmail = '';
   String username = '';
@@ -39,7 +34,6 @@ class _ProfilePageState extends State<ProfilePage> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,13 +42,20 @@ class _ProfilePageState extends State<ProfilePage> {
         automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
         elevation: 0,
-        title: Text(username,style: TextStyle(fontWeight: FontWeight.bold),),
+        title: Text(
+          username,
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         actions: [
-          Icon(Icons.share_outlined,),
+          Icon(
+            Icons.share_outlined,
+          ),
           SizedBox(width: 16),
           Icon(Icons.add_box_outlined),
           SizedBox(width: 16),
-          Icon(Icons.menu,),
+          Icon(
+            Icons.menu,
+          ),
           SizedBox(width: 8),
         ],
       ),
@@ -71,7 +72,12 @@ class _ProfilePageState extends State<ProfilePage> {
                     children: [
                       CircleAvatar(
                         radius: 38,
-                        backgroundImage: AssetImage('lib/assets/img1.png'),
+                        backgroundColor: Colors.grey[300],
+                        child: Icon(
+                          Icons.person,
+                          size: 38,
+                          color: Colors.grey[700],
+                        ),
                       ),
                       CircleAvatar(
                         radius: 10,
@@ -96,11 +102,11 @@ class _ProfilePageState extends State<ProfilePage> {
                       style: TextStyle(fontWeight: FontWeight.bold)),
                   Text(
                     'Born on jan30\n'
-                        'Dad princess\n',
+                    'Dad princess',
                   ),
                   SizedBox(height: 4),
                   Container(
-                    padding: EdgeInsets.all(10),
+                      padding: EdgeInsets.all(10),
                       decoration: BoxDecoration(
                         color: Colors.grey[350],
                         border: Border.all(color: Colors.black38),
@@ -110,8 +116,13 @@ class _ProfilePageState extends State<ProfilePage> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Icon(Icons.mail_outline),
-                          SizedBox(width: 5,),
-                          Text('$userEmail',style: TextStyle(fontWeight: FontWeight.bold),),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            '$userEmail',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
                         ],
                       )),
                 ],
@@ -186,18 +197,24 @@ class _ProfilePageState extends State<ProfilePage> {
               ],
             ),
             SizedBox(height: 30),
-            // Content for each tab
             if (selectedTabIndex == 0)
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 80),
-                child: Center(child: Text("Capture Moment with Friend",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),)),
+                child: Center(
+                    child: Text(
+                  "Capture Moment with Friend",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                )),
               )
             else
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 80),
-                child: Center(child: Text("Share Moment with World",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),)),
+                child: Center(
+                    child: Text(
+                  "Share Moment with World",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                )),
               ),
-
           ],
         ),
       ),
@@ -209,8 +226,7 @@ class _ProfilePageState extends State<ProfilePage> {
       child: Column(
         children: [
           Text(value,
-              style:
-              TextStyle(fontWeight: FontWeight.bold,fontSize: 18)),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
           Text(label, style: TextStyle(fontSize: 16)),
         ],
       ),
